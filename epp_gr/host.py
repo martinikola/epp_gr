@@ -9,19 +9,18 @@ class Host:
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
                 <command>
                     <check>
-                    <host:check xmlns:host="urn:ietf:params:xml:ns:host-1.0" 
+                        <host:check xmlns:host="urn:ietf:params:xml:ns:host-1.0" 
                         xsi:schemaLocation="urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd">
                         <host:name>{host_name}</host:name>
-                    </host:check>
-                    </domain:check>
+                        </host:check>
                     </check>
                 <clTRID>{epp.clTRID}</clTRID>
                 </command>
                 </epp>"""
         response, soup = epp.send_xml(xml)
         if epp.last_result_code == '1000':
-            host_name = soup.find('domain:name')
-            return host_name and host_name.get('avail') == '0'  # '0' means exists, '1' means available
+            host_name = soup.find('host:name')
+            return host_name and host_name.get('avail') == '1'  # '0' means exists, '1' means available
         return False
 
 

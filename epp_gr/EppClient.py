@@ -78,8 +78,25 @@ class EppClient:
             return False
 
 
-    # kind of facades
+    def logout(self):
+        """ logout current session"""
+        xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                    xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+                    <command>
+                        <logout/>
+                        <clTRID>{self.clTRID}</clTRID>
+                    </command>
+                </epp>"""
+        response, soup = self.send_xml(xml)
+        if self.last_result_code == '1000':
+            return True
+        else:
+            return False
+
+
     def contact_check(self,contact_name:str) -> bool:
+        """ checks the availability  of a contacts returns True if available else False """
         # return self.contact.contact_check(self, contact_name )
         from epp_gr.contact import Contact
         return Contact.check(self,contact_name)
@@ -97,6 +114,11 @@ class EppClient:
         return Contact.contact_update(self,contact_info)
 
 
+
+    def host_check(self,host_name:str) -> bool:
+        """ checks the availability  of a host returns True if available else False """
+        from epp_gr.host import Host
+        return Host.host_check(self, host_name)
 
 
 

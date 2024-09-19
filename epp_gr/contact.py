@@ -3,7 +3,7 @@ from epp_gr import EppClient
 class Contact:
 
     @staticmethod
-    def check(epp: EppClient, contact_name:str) -> bool:
+    def check(epp: EppClient, contact_id:str) -> bool:
         """ checks the availability  of a contacts returns True if exists"""
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
             <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -12,7 +12,7 @@ class Contact:
                     <check>
                         <contact:check xmlns:contact="urn:ietf:params:xml:ns:contact-1.0" 
                             xsi:schemaLocation="urn:ietf:params:xml:ns:contact-1.0 contact-1.0.xsd">
-                            <contact:id>{contact_name}</contact:id>
+                            <contact:id>{epp.prefix}_{contact_id}</contact:id>
                         </contact:check>
                     </check>
                 <clTRID>{epp.clTRID}</clTRID>
@@ -21,8 +21,8 @@ class Contact:
         response, soup = epp.send_xml(xml)
         if epp.last_result_code == '1000':
             contact_id = soup.find('contact:id')
-            return contact_id and contact_id.get('avail') == '0'  # '0' means exists, '1' means available
-        return False
+            return contact_id and contact_id.get('avail') == '1'  # '0' means exists, '1' means available
+        # return False
 
 
     @staticmethod

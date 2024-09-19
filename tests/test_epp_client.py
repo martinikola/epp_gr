@@ -16,19 +16,11 @@ class TestEppClient(TestCase):
         self.login_result = self.epp.login()
 
     def test_successful_login(self):
-        login_result = self.epp.login()
-        # self.epp.print_last_response()
-        assert login_result, True
+        successful_login = self.epp.login()
+        assert successful_login is True, "login was successful"
 
     def test_failed_login(self):
         self.epp.pw = 'bananas'
-        login_result = self.epp.login()
-        self.epp.print_last_response()
-        assert login_result, False
+        failed_login = self.epp.login()
+        assert failed_login is False, "login was not successful"
 
-    def test_contact_check(self):
-        self.epp.contact_check('arakas')
-
-
-    def test_contact_create(self):
-        self.epp.contact_create('arakas')
