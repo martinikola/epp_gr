@@ -55,7 +55,24 @@ class Host:
 
     @staticmethod
     def create_host(epp: EppClient, host:dict) -> bool:
-        xml = ""
+        xml = <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp
+  xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd"
+  xmlns="urn:ietf:params:xml:ns:epp-1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <command>
+    <create>
+      <host:create
+        xsi:schemaLocation="urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd"
+        xmlns:host="urn:ietf:params:xml:ns:host-1.0">
+        <host:name>ns1.forth.gr</host:name>
+        <host:addr ip="v6">1080:0:0:0:8:800:200C:417A</host:addr>
+        <host:addr>11.1.1.1</host:addr>
+      </host:create>
+    </create>
+    <clTRID>ABC:ics-forth:1079691187887</clTRID>
+  </command>
+</epp>
         response, soup = epp.send_xml(xml)
         return epp.last_result_code == '1000'
 

@@ -120,5 +120,14 @@ class EppClient:
         from epp_gr.host import Host
         return Host.host_check(self, host_name)
 
+    def host_info(self,host_name:str) -> dict
+        """ retrieves the host information """
+        from epp_gr.host import Host
+        return Host.host_info(self, host_name)
+
+    def host_create(self, host_info:dict) -> bool:
+        from epp_gr.host import Host
+        return Host.create_host(self, host_info)
+
 
 
