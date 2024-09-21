@@ -1,1 +1,0 @@
-from epp_gr import _Contact

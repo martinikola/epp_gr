@@ -6,7 +6,6 @@ from epp_gr.contact import Contact
 
 
 class EppClient:
-
     # def __init__(self):
     # from epp_gr.contact import Contact
     # self.contact = Contact
@@ -27,7 +26,7 @@ class EppClient:
     def print_last_response(self):
         print(self.last_response)
 
-    def send_xml(self,xml):
+    def send_xml(self, xml):
         headers = {'Content-Type': 'application/xml', 'Connection': 'keep-alive',
                    'Cookie': 'JSESSIONID=' + self.jsessionid + '; Path=/epp; Secure; HttpOnly;'}
         self.last_payload = xml
@@ -77,7 +76,6 @@ class EppClient:
         else:
             return False
 
-
     def logout(self):
         """ logout current session"""
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -94,40 +92,34 @@ class EppClient:
         else:
             return False
 
-
-    def contact_check(self,contact_name:str) -> bool:
+    def contact_check(self, contact_name: str) -> bool:
         """ checks the availability  of a contacts returns True if available else False """
         # return self.contact.contact_check(self, contact_name )
         from epp_gr.contact import Contact
-        return Contact.check(self,contact_name)
+        return Contact.check(self, contact_name)
 
-    def contact_info(self,contact_name:str) -> dict:
+    def contact_info(self, contact_name: str) -> dict:
         from epp_gr.contact import Contact
-        return Contact.info(self,contact_name)
+        return Contact.info(self, contact_name)
 
-    def contact_create(self, contact_info:dict) -> bool:
+    def contact_create(self, contact_info: dict) -> bool:
         from epp_gr.contact import Contact
-        return Contact.contact_create(self,contact_info)
+        return Contact.contact_create(self, contact_info)
 
-    def contact_update(self,contact_info:dict) -> bool:
+    def contact_update(self, contact_info: dict) -> bool:
         from epp_gr.contact import Contact
-        return Contact.contact_update(self,contact_info)
+        return Contact.contact_update(self, contact_info)
 
-
-
-    def host_check(self,host_name:str) -> bool:
+    def host_check(self, host_name: str) -> bool:
         """ checks the availability  of a host returns True if available else False """
         from epp_gr.host import Host
         return Host.host_check(self, host_name)
 
-    def host_info(self,host_name:str) -> dict
+    def host_info(self, host_name: str) -> dict:
         """ retrieves the host information """
         from epp_gr.host import Host
         return Host.host_info(self, host_name)
 
-    def host_create(self, host_info:dict) -> bool:
+    def host_create(self, host_info: dict) -> bool:
         from epp_gr.host import Host
         return Host.create_host(self, host_info)
-
-
-

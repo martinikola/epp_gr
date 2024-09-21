@@ -1,9 +1,10 @@
 from epp_gr import EppClient
 
+
 class Domain:
 
     @staticmethod
-    def domain_check(epp: EppClient, domain_name:str) -> bool:
+    def domain_check(epp: EppClient, domain_name: str) -> bool:
         """ checks the availability  of a domain returns True if exists"""
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
@@ -22,9 +23,8 @@ class Domain:
             return domain_name and domain_name.get('avail') == '0'  # '0' means exists, '1' means available
         return False
 
-
     @staticmethod
-    def domain_info(epp: EppClient, domain_name:str) -> dict:
+    def domain_info(epp: EppClient, domain_name: str) -> dict:
         """ get domain info or error if not exists"""
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
@@ -52,7 +52,7 @@ class Domain:
             return domain_info
 
     @staticmethod
-    def create_domain(epp: EppClient, domain:dict) -> bool:
+    def create_domain(epp: EppClient, domain: dict) -> bool:
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -85,22 +85,7 @@ class Domain:
         return epp.last_result_code == '1000'
 
     @staticmethod
-    def domain_update(epp: EppClient, contact_info:dict) -> bool:
+    def domain_update(epp: EppClient, contact_info: dict) -> bool:
         xml = ""
         response, soup = epp.send_xml(xml)
         return epp.last_result_code == '1000'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
