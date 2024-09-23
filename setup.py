@@ -2,9 +2,9 @@ from setuptools import setup, find_packages
 
 setup(
     name='epp_gr',
-    version='0.0.1',
+    version='0.0.2',
     packages=find_packages(),
-    url='https://github.com/mpizeli/eppgr',
+    url='https://github.com/martinikola/epp_gr.git',
     license='GPL',
     author='Nektarios',
     author_email='nektarios.arakas@gmail.com',
