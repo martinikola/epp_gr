@@ -3,7 +3,7 @@ from epp_gr import EppClient
 class Host:
 
     @staticmethod
-    def host_check(epp: EppClient, host_name:str) -> bool:
+    def check(epp: EppClient, host_name:str) -> bool:
         """ checks the availability  of a host returns True if exists"""
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
@@ -25,7 +25,7 @@ class Host:
 
 
     @staticmethod
-    def host_info(epp: EppClient, host_name:str) -> dict:
+    def info(epp: EppClient, host_name:str) -> dict:
         """ get host info or error if not exists"""
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
@@ -54,7 +54,24 @@ class Host:
             return host_info
 
     @staticmethod
-    def create_host(epp: EppClient, host: dict) -> bool:
+    def create(epp: EppClient, host: dict) -> bool:
+        # xml = f"""
+        # <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        # <epp xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd"
+        #         xmlns="urn:ietf:params:xml:ns:epp-1.0"
+        #         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        #     <command>
+        #         <create>
+        #         <host:create xsi:schemaLocation="urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd"
+        #             xmlns:host="urn:ietf:params:xml:ns:host-1.0">
+        #             <host:name>ns1.forth.gr</host:name>
+        #             <host:addr ip="v6">1080:0:0:0:8:800:200C:417A</host:addr>
+        #             <host:addr>11.1.1.1</host:addr>
+        #         </host:create>
+        #         </create>
+        #     <clTRID>ABC:ics-forth:1079691187887</clTRID>
+        # </command>
+        # </epp>"""
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
             <epp xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd"
                 xmlns="urn:ietf:params:xml:ns:epp-1.0"    
@@ -64,11 +81,10 @@ class Host:
                     <host:create xsi:schemaLocation="urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd"
                         xmlns:host="urn:ietf:params:xml:ns:host-1.0">
                     <host:name>{host['name']}</host:name>"""
-
+        if 'ip_v6' in host:
+            xml += f"""<host:addr ip="v6">{host['ip_v6']}</host:addr>"""
         if 'ip_v4' in host:
             xml += f"""<host:addr>{host['ip_v4']}</host:addr>"""
-        if 'ip_v6' in host:
-            xml += f"""<host:addr ip="v6">{host['ip_v4']}1080:0:0:0:8:800:200C:417A</host:addr>"""
 
         xml += f"""</host:create>
                 </create>
@@ -79,11 +95,31 @@ class Host:
         return epp.last_result_code == '1000'
 
     @staticmethod
-    def host_update(epp: EppClient, host:dict) -> bool:
+    def update(epp: EppClient, host:dict) -> bool:
         raise NotImplementedError
         # xml = "bla bla bla"
         # response, soup = epp.send_xml(xml)
         # return epp.last_result_code == '1000'
+
+    @staticmethod
+    def delete(epp: EppClient, host_name:str) -> bool:
+        xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+            <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+                <command>
+                    <delete>
+                        <host:delete xmlns:host="urn:ietf:params:xml:ns:host-1.0" 
+                            xsi:schemaLocation="urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd">
+                        <host:name>{host_name}</host:name>
+                        </host:delete>
+                    </delete>
+                    <clTRID>{epp.clTRID}</clTRID>
+                </command>
+            </epp>"""
+        response, soup = epp.send_xml(xml)
+        if epp.last_result_code == '1000':
+                return True
 
 
 

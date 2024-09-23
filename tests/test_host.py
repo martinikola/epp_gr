@@ -12,6 +12,7 @@ class TestHost(TestCase):
     def setUp(self):
         self.epp = EppClient()
         self.login_result = self.epp.login()
+        self.host_available = self.epp.host_check(self.host)
 
     def tearDown(self):
         self.epp.logout()
@@ -23,19 +24,21 @@ class TestHost(TestCase):
     def test_host_info(self):
         host_info = self.epp.host_info(self.host)
         if self.host_available:
-            assert host_info['name'] == self.host, self.epp.last_result_code
-        else:
             assert host_info is None, self.epp.last_result_code
+        else:
+            assert host_info['name'] == self.host, self.epp.last_result_code
 
     def test_host_create(self):
+        # 'ip_v4': '13.13.13.13',
+        # 'ip_v6': '1080:0:0:0:8:800:200C:417A'
         host_info = {
-            'name': {self.contact_id},
+            'name': self.host,
             'ip_v4': '13.13.13.13',
             'ip_v6': '1080:0:0:0:8:800:200C:417A'
         }
         host_create = self.epp.host_create(host_info)
         if self.host_available:
-            assert host_create is True, f"""expected host {self.host} to be created"""
+            assert host_create is True, f"""expected host {self.host} to be created """
         else:
             assert host_create is False, f"""expected host creation {self.host} to fail since its not available"""
 
@@ -52,9 +55,19 @@ class TestHost(TestCase):
 
             }
         }
-        host_update = self.epp.host_create(host_info)
+        host_update = self.epp.host_update(host_info)
         if self.host_available:
             assert host_update is True
         else:
             assert host_update is False, f"""expected host {self.host_available} to fail since its not available"""
+
+    def test_host_delete(self):
+        host_available_now = self.epp.host_check(self.host)
+        host_delete = self.epp.host_delete(self.host)
+        if host_available_now:
+            assert host_delete is None, f"""expected host {self.host_available} to fail since its not available"""
+        else:
+            assert host_delete is True, f""" expected host {self.host} to be deleted """
+
+
 

@@ -4,7 +4,7 @@ from epp_gr import EppClient
 class Domain:
 
     @staticmethod
-    def domain_check(epp: EppClient, domain_name: str) -> bool:
+    def check(epp: EppClient, domain_name: str) -> bool:
         """ checks the availability  of a domain returns True if exists"""
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
@@ -24,7 +24,7 @@ class Domain:
         return False
 
     @staticmethod
-    def domain_info(epp: EppClient, domain_name: str) -> dict:
+    def info(epp: EppClient, domain_name: str) -> dict:
         """ get domain info or error if not exists"""
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
@@ -52,7 +52,7 @@ class Domain:
             return domain_info
 
     @staticmethod
-    def create_domain(epp: EppClient, domain: dict) -> bool:
+    def create(epp: EppClient, domain_info: dict) -> bool:
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -62,16 +62,16 @@ class Domain:
                             <domain:create 
                                  xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" 
                                 xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
-                            <domain:name>{domain['name']}</domain:name>
-                            <domain:period unit="y">{domain['period']}</domain:period>
-                            <domain:registrant>{domain['registrant']}</domain:registrant>
+                            <domain:name>{domain_info['name']}</domain:name>
+                            <domain:period unit="y">{domain_info['period']}</domain:period>
+                            <domain:registrant>{domain_info['registrant']}</domain:registrant>
                     """
-        if 'tech' in domain:
-            xml += f"""        <domain:contact type="tech">{domain['tech']}</domain:contact>"""
-        if 'admin' in domain:
-            xml += f"""        <domain:contact type="admin">{domain['admin']}</domain:contact>"""
-        if 'billing' in domain:
-            xml += f"""        <domain:contact type="billing">{domain['billing']}</domain:contact>"""
+        if 'tech' in domain_info:
+            xml += f"""        <domain:contact type="tech">{domain_info['tech']}</domain:contact>"""
+        if 'admin' in domain_info:
+            xml += f"""        <domain:contact type="admin">{domain_info['admin']}</domain:contact>"""
+        if 'billing' in domain_info:
+            xml += f"""        <domain:contact type="billing">{domain_info['billing']}</domain:contact>"""
         xml += f"""<domain:authInfo>
                                 <domain:pw/>
                             </domain:authInfo>
@@ -85,7 +85,41 @@ class Domain:
         return epp.last_result_code == '1000'
 
     @staticmethod
-    def domain_update(epp: EppClient, contact_info: dict) -> bool:
-        xml = ""
+    def update(epp: EppClient, domain_info: dict) -> bool:
+        xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+            <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                 xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+            <command>
+                <update>
+                    <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" 
+                        xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
+                        <domain:name>{domain_info['name']}</domain:name>
+                            <domain:add>
+                                <domain:ns>
+                                    <domain:hostObj>{domain_info['host_add']}</domain:hostObj>
+                                </domain:ns>
+                                <domain:contact type="admin">{domain_info['admin_add']}</domain:contact>
+                                <domain:contact type="tech">{domain_info['tech_add']}</domain:contact>
+                                <domain:contact type="billing">{domain_info['billing_add']}</domain:contact>
+                            </domain:add>
+                            <domain:rem>
+                                <domain:ns>
+                                    <domain:hostObj>{domain_info['host_rem']}</domain:hostObj>
+                                </domain:ns>
+                                <domain:contact type="admin">{domain_info['admin_rem']}</domain:contact>
+                                <domain:contact type="tech">{domain_info['tech_rem']}</domain:contact>
+                                <domain:contact type="billing">{domain_info['billing_rem']}</domain:contact>
+                            </domain:rem>        
+                    </domain:update>
+                </update>
+            <clTRID>{epp.clTRID}</clTRID>
+            </command>
+            </epp>"""
         response, soup = epp.send_xml(xml)
         return epp.last_result_code == '1000'
+
+
+    def delete(epp: EppClient, domain_name: str) -> bool:
+        raise NotImplementedError
+

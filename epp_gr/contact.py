@@ -60,7 +60,7 @@ class Contact:
             return contact_info
 
     @staticmethod
-    def contact_create(epp: EppClient, contact_info:dict) -> bool:
+    def create(epp: EppClient, contact_info:dict) -> bool:
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                     <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
                         <command>
@@ -106,7 +106,7 @@ class Contact:
         return epp.last_result_code == '1000'
 
     @staticmethod
-    def contact_update(epp: EppClient, contact_info:dict) -> bool:
+    def update(epp: EppClient, contact_info:dict) -> bool:
         """ contact update  """
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">

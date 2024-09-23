@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from decouple import config
 import requests
 
+import epp_gr.host
 from epp_gr.contact import Contact
 
 
@@ -94,32 +95,36 @@ class EppClient:
 
     def contact_check(self, contact_name: str) -> bool:
         """ checks the availability  of a contacts returns True if available else False """
-        # return self.contact.contact_check(self, contact_name )
         from epp_gr.contact import Contact
-        return Contact.check(self, contact_name)
+        return epp_gr.contact.Contact.check(self, contact_name)
 
     def contact_info(self, contact_name: str) -> dict:
         from epp_gr.contact import Contact
         return Contact.info(self, contact_name)
 
     def contact_create(self, contact_info: dict) -> bool:
-        from epp_gr.contact import Contact
-        return Contact.contact_create(self, contact_info)
+        return epp_gr.contact.Contact.create(self, contact_info)
 
     def contact_update(self, contact_info: dict) -> bool:
-        from epp_gr.contact import Contact
-        return Contact.contact_update(self, contact_info)
+        return epp_gr.contact.Contact.update(self, contact_info)
+
 
     def host_check(self, host_name: str) -> bool:
         """ checks the availability  of a host returns True if available else False """
-        from epp_gr.host import Host
-        return Host.host_check(self, host_name)
+        return epp_gr.host.Host.check(self, host_name)
 
     def host_info(self, host_name: str) -> dict:
         """ retrieves the host information """
-        from epp_gr.host import Host
-        return Host.host_info(self, host_name)
+        return epp_gr.host.Host.info(self,host_name)
 
     def host_create(self, host_info: dict) -> bool:
-        from epp_gr.host import Host
-        return Host.create_host(self, host_info)
+        """ creates a new host"""
+        return epp_gr.host.Host.create(self, host_info)
+
+    def host_update(self, host_info: dict) -> bool:
+        """ creates a new host"""
+        return epp_gr.host.Host.update(self, host_info)
+
+    def host_delete(self, host_name: str) -> bool:
+        """ deletes a host """
+        return epp_gr.host.Host.delete(self, host_name)
