@@ -4,8 +4,6 @@ import requests
 
 from epp_gr import host, contact, domain
 
-
-
 class EppClient:
     # def __init__(self):
     # from epp_gr.contact import Contact

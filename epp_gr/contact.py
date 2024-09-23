@@ -50,7 +50,7 @@ class Contact:
                             'roid': soup.find('contact:roid').text}
             postal_loc = soup.find("contact:postalInfo", {"type": "loc"})
             contact_info['loc_name'] = postal_loc.find('contact:name').text
-            contact_info['loc_org'] = postal_loc.find('contact:org').text
+            contact_info['loc_org'] = postal_loc.find('contact:org').text if postal_loc.find('contact:org') else None
             loc_street_elements = postal_loc.find_all('contact:street')
             for i, loc_street in enumerate(loc_street_elements, start=1):
                 contact_info[f'loc_street{i}'] = loc_street.get_text(strip=True)
