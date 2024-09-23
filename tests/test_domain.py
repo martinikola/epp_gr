@@ -1,10 +1,10 @@
 from unittest import TestCase
 from epp_gr.EppClient import EppClient
 
-class TestContact(TestCase):
+class TestDomain(TestCase):
 
-    domain_name = "arakas"
-    domain_available = False
+    domain_name = "arampas.gr"
+    domain_available = True
 
     def setUp(self):
         self.epp = EppClient()
@@ -14,8 +14,10 @@ class TestContact(TestCase):
         self.epp.logout()
 
     def test_domain_check(self):
-        domain_available = self.epp.contact_check(self.domain_name)
-        self.epp.print_last_response()
+        domain_available = self.epp.domain_check(self.domain_name)
+        # print(self.epp.last_payload)
+        # self.epp.print_last_response()
+        print(domain_available)
         assert domain_available is self.domain_available, f"domain {self.domain_available} exist is {self.domain_available}"
 
     # def test_domain_info(self):
