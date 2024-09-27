@@ -35,7 +35,7 @@ class Host:
                         <info>
                             <host:info xsi:schemaLocation="urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd" 
                                 xmlns:host="urn:ietf:params:xml:ns:host-1.0">
-                        <host:name>{host_name}r</host:name>
+                        <host:name>{host_name}</host:name>
                         </host:info>
                         </info>
                         <clTRID>{epp.clTRID}</clTRID>
@@ -48,7 +48,7 @@ class Host:
             ip_v4 = soup.find('host:addr', {'ip':'v4'})
             if ip_v4:
                 host_info['ip_v4'] = ip_v4.text
-            ip_v6 = soup.find('host:addr', {'ip': 'v4'})
+            ip_v6 = soup.find('host:addr', {'ip': 'v6'})
             if ip_v6:
                 host_info['ip_v6'] = ip_v6.text
             return host_info

@@ -25,6 +25,9 @@ class EppClient:
     def print_last_response(self):
         print(self.last_response)
 
+    def print_last_payload(self):
+        print(self.last_payload)
+
     def send_xml(self, xml):
         headers = {'Content-Type': 'application/xml', 'Connection': 'keep-alive',
                    'Cookie': 'JSESSIONID=' + self.jsessionid + '; Path=/epp; Secure; HttpOnly;'}
@@ -127,5 +130,10 @@ class EppClient:
         """ deletes a host """
         return host.Host.delete(self, host_name)
 
+
     def domain_check(self,domain_name: str) -> bool:
+        """ checks the availability  of a domain returns True if available else False """
         return domain.Domain.check(self, domain_name)
+
+    def domain_info(self, domain_name: str) -> dict:
+        return domain.Domain.info(self, domain_name)
