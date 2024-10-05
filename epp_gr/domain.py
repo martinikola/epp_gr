@@ -66,11 +66,11 @@ class Domain:
                             <domain:period unit="y">{domain_info['period']}</domain:period>
                             <domain:registrant>{domain_info['registrant']}</domain:registrant>
                     """
-        if 'tech' in domain_info:
+        if domain_info.get('tech'):
             xml += f"""        <domain:contact type="tech">{domain_info['tech']}</domain:contact>"""
-        if 'admin' in domain_info:
+        if domain_info.get('admin'):
             xml += f"""        <domain:contact type="admin">{domain_info['admin']}</domain:contact>"""
-        if 'billing' in domain_info:
+        if domain_info.get('billing'):
             xml += f"""        <domain:contact type="billing">{domain_info['billing']}</domain:contact>"""
         xml += f"""<domain:authInfo>
                                 <domain:pw/>
