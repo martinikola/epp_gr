@@ -29,7 +29,7 @@ class TestContact(TestCase):
 
     def test_contact_create(self):
         contact_info = {
-            'contact_id': {self.contact_id},
+            'contact_id': self.contact_id,
             'loc_name': 'ΝΕΚΤΑΡΙΟΣ ΑΡΑΚΑΣ',
             'loc_org': 'ΕΛΛΗΝΙΚΑ',
             'loc_street1': 'ΑΧΑΡΝΩΝ',

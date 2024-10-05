@@ -3,6 +3,7 @@ from epp_gr.EppClient import EppClient
 
 class TestDomain(TestCase):
 
+    registrant = 'b95_arakas' # xxx_arakas must already exist
     domain_name = "arampas.gr"
     domain_available = True
 
@@ -20,48 +21,31 @@ class TestDomain(TestCase):
         print(domain_available)
         assert domain_available is self.domain_available, f"domain {self.domain_available} exist is {self.domain_available}"
 
-    # def test_domain_info(self):
-    #     domain_info = self.epp.domain_info(self.domain_name)
-    #     if self.contact_available:
-    #         assert contact_info is None
-    #     else:
-    #         epp_contact_id  = self.epp.prefix + "_" + self.contact_id
-    #         assert contact_info['contact_id'] == epp_contact_id , f"""contact {self.contact_id} <> {epp_contact_id}"""
-    #
-    #
-    # def test_contact_create(self):
-    #     contact_info = {
-    #         'contact_id': {self.contact_id},
-    #         'loc_name': 'ΝΕΚΤΑΡΙΟΣ ΑΡΑΚΑΣ',
-    #         'loc_org': 'ΕΛΛΗΝΙΚΑ',
-    #         'loc_street1': 'ΑΧΑΡΝΩΝ',
-    #         'loc_street2': 'ΠΑΠΑΦΛΕΣΣΑ',
-    #         'loc_street3': '',
-    #         'loc_city': 'ΑΘΗΝΑ',
-    #         'loc_sp': 'ΠΕΙΡΑΙΑΣ',
-    #         'loc_pc': '12345',
-    #         'loc_cc': 'gr',
-    #         # το καταργησα, ειναι παιδεμα η υλοποιηση...
-    #         # 'int_name': 'John Doe',
-    #         # 'int_org': 'Example Organization',
-    #         # 'int_street1': '789 International Blvd',
-    #         # 'int_street2': 'Floor 10',
-    #         # 'int_street3': 'Tower XYZ',
-    #         # 'int_city': 'Global City',
-    #         # 'int_sp': 'Region',
-    #         # 'int_pc': '98765',
-    #         'voice': '+30.2102125306',
-    #         'fax': '+30.2102125306',
-    #         'email': 'john.doe@example.com',
-    #     }
-    #     contact_create = self.epp.contact_create(contact_info)
-    #     if self.contact_available:
-    #         assert contact_create is True, f"""expected contact {self.contact_id} to be created"""
-    #     else:
-    #         assert contact_create is False, f"""expected contact {self.contact_id} to fail since its not available"""
-    #
-    #
-    #
+    def test_domain_info(self):
+        domain_info = self.epp.domain_info(self.domain_name)
+        if self.domain_available:
+            assert domain_info is None
+        else:
+            domain_name = domain_info['domain_name']
+            assert domain_info['domain_name'] == self.domain_name , f"""domain  {self.domain_name} <> {domain_name}"""
+
+
+    def test_domain_create(self):
+        domain_info = {
+            'registrant': self.registrant,
+            'name' : self.domain_name,
+            'period' : '2',
+        }
+        domain_create = self.epp.domain_create(domain_info)
+        self.epp.print_last_payload()
+
+        # if self.domain_available:
+        #     assert domain_create is True, f"""expected domain {self.domain_name} to be created {self.epp.last_response}"""
+        # else:
+        #     assert domain_create is False, f"""expected domain {self.domain_name} to fail since its not available {self.epp.last_response}"""
+
+
+
     # def test_contact_update(self):
     #     domain_info = {
     #         'contact_id': self.contact_id,
@@ -85,4 +69,4 @@ class TestDomain(TestCase):
     #         assert contact_update is False, f"""expected contact {self.contact_id} to be updated"""
     #     else:
     #         assert contact_update is True, f"""expected contact {self.contact_id} to fail since its not available"""
-    #
+

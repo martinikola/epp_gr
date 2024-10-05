@@ -82,7 +82,7 @@ class Domain:
                 </epp>
                 """
         response, soup = epp.send_xml(xml)
-        return epp.last_result_code == '1000'
+        return epp.last_result_code == '1001'
 
     @staticmethod
     def update(epp: EppClient, domain_info: dict) -> bool:
