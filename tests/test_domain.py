@@ -5,7 +5,7 @@ class TestDomain(TestCase):
 
     registrant = 'b95_arakas' # xxx_arakas must already exist
     domain_name = "arampas.gr"
-    domain_available = True
+    domain_available = False
 
     def setUp(self):
         self.epp = EppClient()
@@ -26,8 +26,8 @@ class TestDomain(TestCase):
         if self.domain_available:
             assert domain_info is None
         else:
-            domain_name = domain_info['domain_name']
-            assert domain_info['domain_name'] == self.domain_name , f"""domain  {self.domain_name} <> {domain_name}"""
+            self.epp.print_last_response()
+            assert domain_info['name'] == self.domain_name , f"""domain  {self.domain_name} <> {domain_info['name']}"""
 
 
     def test_domain_create(self):
@@ -44,7 +44,19 @@ class TestDomain(TestCase):
         # else:
         #     assert domain_create is False, f"""expected domain {self.domain_name} to fail since its not available {self.epp.last_response}"""
 
+    def test_renew(self):
+        print(self.epp.domain_info(self.domain_name))
 
+
+
+        # domain_info = {
+        #     'name' : self.domain_name,
+        #     'current_exp_date' : '2012-03-19',
+        #     'period' : '2'
+        # }
+        # domain_renew = self.epp.domain_renew(domain_info)
+        # self.epp.print_last_response()
+        # self.epp.print_last_payload()
 
     # def test_contact_update(self):
     #     domain_info = {

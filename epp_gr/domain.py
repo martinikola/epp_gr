@@ -48,7 +48,14 @@ class Domain:
             domain_info = {'name': soup.find('domain:name').text,
                            'roid': soup.find('domain:roid').text,
                            'registrant': soup.find('domain:registrant').text,
-                           'admin': soup.find('domain:contact', {'type': 'admin'}).text}
+                           'admin': soup.find('domain:contact', {'type': 'admin'}).text
+                                    if soup.find('domain:contact', {'type': 'admin'}) else None,
+                           'tech': soup.find('domain:contact', {'type': 'tech'}).text
+                           if soup.find('domain:contact', {'type': 'tech'}) else None,
+                           'billing': soup.find('domain:contact', {'type': 'billing'}).text
+                           if soup.find('domain:contact', {'type': 'billing'}) else None,
+                           'exp_date' : soup.find('')
+                           }
             return domain_info
 
     @staticmethod
@@ -122,4 +129,29 @@ class Domain:
 
     def delete(epp: EppClient, domain_name: str) -> bool:
         raise NotImplementedError
+
+
+    def renew(epp: EppClient, domain_info: dict) -> dict:
+        xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+            <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+                <command>
+                    <renew>
+                        <domain:renew xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" 
+                                xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
+                            <domain:name>{domain_info['name']}r</domain:name>
+                            <domain:curExpDate>{domain_info['current_exp_date']}</domain:curExpDate>
+                            <domain:period unit="y">{domain_info['period']}</domain:period>
+                    </domain:renew>
+                    </renew>
+                <clTRID>ABC:ics-forth:1079952249913</clTRID>
+                </command>
+            </epp>"""
+        response, soup = epp.send_xml(xml)
+        if epp.last_result_code == '1000':
+            return  {'name': soup.find('domain:name').text,
+                    'exp_date' : soup.find('domain:exDate').text}
+
+
+
 

@@ -22,6 +22,7 @@ class EppClient:
     last_result_msg = ""
     last_payload = ""
 
+
     def print_last_response(self):
         print(self.last_response)
 
@@ -32,8 +33,7 @@ class EppClient:
         headers = {'Content-Type': 'application/xml', 'Connection': 'keep-alive',
                    'Cookie': 'JSESSIONID=' + self.jsessionid + '; Path=/epp; Secure; HttpOnly;'}
         self.last_payload = xml
-        response = requests.request(
-            "GET", self.url, headers=headers, data=xml.encode('utf-8'))
+        response = requests.request(timeout=5, method="GET", url=self.url, headers=headers, data=xml.encode('utf-8'))
         if response:
             soup = BeautifulSoup(response.text, 'xml')
             self.last_result_code = soup.find('result')['code']
@@ -146,5 +146,8 @@ class EppClient:
 
     def domain_delete(self, domain_name: str) -> bool:
         return domain.Domain.delete(self, domain_name)
+
+    def domain_renew(self,domain_info: dict) -> dict:
+        return domain.Domain.renew(self,domain_info)
 
 
