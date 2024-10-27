@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='epp_gr',
-    version='0.0.11',
+    version='0.0.12',
     packages=find_packages(),
     url='https://github.com/martinikola/epp_gr.git',
     license='GPL',

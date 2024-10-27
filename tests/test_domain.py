@@ -4,7 +4,7 @@ from epp_gr.EppClient import EppClient
 class TestDomain(TestCase):
 
     registrant = 'b95_arakas' # xxx_arakas must already exist
-    domain_name = "arampas.gr"
+    domain_name = 'bizelia.gr'
     domain_available = False
 
     def setUp(self):
@@ -43,6 +43,32 @@ class TestDomain(TestCase):
         #     assert domain_create is True, f"""expected domain {self.domain_name} to be created {self.epp.last_response}"""
         # else:
         #     assert domain_create is False, f"""expected domain {self.domain_name} to fail since its not available {self.epp.last_response}"""
+
+    def test_domain_update(self):
+        domain_info = {
+            'name' : 'bizelia.gr',
+
+            # 'host_add' : 'ns.bizelia.gr',
+            # 'admin_add' : 'b95_arakas',
+            # 'tech_add' : 'b95_arakas',
+            # 'billing_add' : 'b95_arakas',
+
+            'host_rem' : 'ns.bizelia.gr',
+            # 'admin_rem' : 'b95_arakas',
+            # 'tech_rem' : 'b95_arakas',
+            # 'billing_rem' :'b95_arakas',
+        }
+
+
+        self.epp.domain_update(domain_info)
+        self.epp.print_last_payload()
+        self.epp.print_last_response()
+
+
+
+
+
+
 
     def test_renew(self):
         print(self.epp.domain_info(self.domain_name))

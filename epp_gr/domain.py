@@ -49,12 +49,12 @@ class Domain:
                            'roid': soup.find('domain:roid').text,
                            'registrant': soup.find('domain:registrant').text,
                            'admin': soup.find('domain:contact', {'type': 'admin'}).text
-                                    if soup.find('domain:contact', {'type': 'admin'}) else None,
+                           if soup.find('domain:contact', {'type': 'admin'}) else None,
                            'tech': soup.find('domain:contact', {'type': 'tech'}).text
                            if soup.find('domain:contact', {'type': 'tech'}) else None,
                            'billing': soup.find('domain:contact', {'type': 'billing'}).text
                            if soup.find('domain:contact', {'type': 'billing'}) else None,
-                           'exp_date' : soup.find('')
+                           'exp_date': soup.find('')
                            }
             return domain_info
 
@@ -101,26 +101,35 @@ class Domain:
                 <update>
                     <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" 
                         xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
-                        <domain:name>{domain_info['name']}</domain:name>
-                            <domain:add>
-                                <domain:ns>
-                                    <domain:hostObj>{domain_info['host_add']}</domain:hostObj>
-                                </domain:ns>
-                                <domain:contact type="admin">{domain_info['admin_add']}</domain:contact>
-                                <domain:contact type="tech">{domain_info['tech_add']}</domain:contact>
-                                <domain:contact type="billing">{domain_info['billing_add']}</domain:contact>
-                            </domain:add>
-                            <domain:rem>
-                                <domain:ns>
-                                    <domain:hostObj>{domain_info['host_rem']}</domain:hostObj>
-                                </domain:ns>
-                                <domain:contact type="admin">{domain_info['admin_rem']}</domain:contact>
-                                <domain:contact type="tech">{domain_info['tech_rem']}</domain:contact>
-                                <domain:contact type="billing">{domain_info['billing_rem']}</domain:contact>
-                            </domain:rem>        
-                    </domain:update>
+                        <domain:name>{domain_info['name']}</domain:name>\n"""
+        if any(key in domain_info for key in ['host_add', 'admin_add', 'tech_add', 'billing']):
+            xml += f"""                        <domain:add>\n"""
+        if 'host_add' in domain_info:
+            xml += f"""                        <domain:ns><domain:hostObj>{domain_info['host_add']}</domain:hostObj></domain:ns>\n"""
+        if 'admin_add' in domain_info:
+            xml += f"""                        <domain:contact type="admin">{domain_info['admin_add']}</domain:contact>\n"""
+        if 'tech_add' in domain_info:
+            xml += f"""                        <domain:contact type="tech" >{domain_info['tech_add']}</domain:contact>\n"""
+        if 'billing_add' in domain_info:
+            xml += f"""                        <domain:contact type="billing">{domain_info['billing_add']}</domain:contact>\n"""
+        if any(key in domain_info for key in ['host_add', 'admin_add', 'tech_add', 'billing_add']):
+            xml += f"""                        </domain:add>\n"""
+        if any(key in domain_info for key in ['host_rem', 'admin_rem', 'tech_rem', 'billing_rem']):
+            xml += f"""                        <domain:rem>\n"""
+        if 'host_rem' in domain_info:
+            xml += f"""                        <domain:ns><domain:hostObj>{domain_info['host_rem']}</domain:hostObj></domain:ns>\n"""
+        if 'admin_rem' in domain_info:
+            xml += f"""                        <domain:contact type="admin">{domain_info['admin_rem']}</domain:contact>\n"""
+        if 'tech_rem' in domain_info:
+            xml += f"""                        <domain:contact type="tech">{domain_info['tech_rem']}</domain:contact>\n"""
+        if 'billing_rem' in domain_info:
+            xml += f"""                        <domain:contact type="billing">{domain_info['billing_rem']}</domain:contact>\n"""
+        if any(key in domain_info for key in ['host_rem', 'admin_rem', 'tech_rem', 'billing_rem']):
+            xml += f"""                        </domain:rem>\n"""
+
+        xml += f"""                        </domain:update>
                 </update>
-            <clTRID>{epp.clTRID}</clTRID>
+            <clTRID>{epp.clTRID}</clTRID >
             </command>
             </epp>"""
         response, soup = epp.send_xml(xml)
@@ -132,26 +141,23 @@ class Domain:
 
 
     def renew(epp: EppClient, domain_info: dict) -> dict:
-        xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-            <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-                xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
-                <command>
-                    <renew>
-                        <domain:renew xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" 
-                                xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
-                            <domain:name>{domain_info['name']}r</domain:name>
-                            <domain:curExpDate>{domain_info['current_exp_date']}</domain:curExpDate>
-                            <domain:period unit="y">{domain_info['period']}</domain:period>
-                    </domain:renew>
-                    </renew>
-                <clTRID>ABC:ics-forth:1079952249913</clTRID>
-                </command>
-            </epp>"""
+        xml = f""" <?xml version = "1.0" encoding = "UTF-8" standalone = "no"?>
+               <epp xmlns = "urn:ietf:params:xml:ns:epp-1.0"
+                    xmlns: xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                    xsi: schemaLocation = "urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd" >
+                    <command>
+                        <renew>
+                        <domain:renew xmlns: domain = "urn:ietf:params:xml:ns:domain-1.0"
+                                xsi: schemaLocation = "urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd" >
+                            <domain:name>{domain_info['name']}</domain:name>
+                            <domain:curExpDate>{domain_info['current_exp_date']}</domain:curExpDate >
+                            <domain:period unit="y">{domain_info['period']}</domain:period >
+                        </domain:renew >
+                        </renew>
+                    <clTRID>{epp.clTRID}</clTRID >
+                    </command>
+               </epp>"""
         response, soup = epp.send_xml(xml)
         if epp.last_result_code == '1000':
             return  {'name': soup.find('domain:name').text,
                     'exp_date' : soup.find('domain:exDate').text}
-
-
-
-
