@@ -58,7 +58,7 @@ class Contact:
             contact_info['loc_pc'] = postal_loc.find('contact:pc').text
             contact_info['loc_cc'] = postal_loc.find('contact:cc').text
             contact_info['voice'] = soup.find('contact:voice').text
-            contact_info['fax'] = soup.find('contact:fax').text
+            contact_info['fax'] = soup.find('contact:fax').text if soup.find('contact:fax') else None
             contact_info['email'] = soup.find('contact:email').text
             return contact_info
 

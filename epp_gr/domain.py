@@ -49,11 +49,11 @@ class Domain:
                            'roid': soup.find('domain:roid').text,
                            'registrant': soup.find('domain:registrant').text,
                            'admin': soup.find('domain:contact', {'type': 'admin'}).text
-                           if soup.find('domain:contact', {'type': 'admin'}) else None,
+                                if soup.find('domain:contact', {'type': 'admin'}) else None,
                            'tech': soup.find('domain:contact', {'type': 'tech'}).text
-                           if soup.find('domain:contact', {'type': 'tech'}) else None,
+                                if soup.find('domain:contact', {'type': 'tech'}) else None,
                            'billing': soup.find('domain:contact', {'type': 'billing'}).text
-                           if soup.find('domain:contact', {'type': 'billing'}) else None,
+                                if soup.find('domain:contact', {'type': 'billing'}) else None,
                            'exp_date': soup.find('')
                            }
             return domain_info
