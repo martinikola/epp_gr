@@ -38,7 +38,6 @@ class Contact:
                     xsi:schemaLocation="urn:ietf:params:xml:ns:contact-1.0
                     contact-1.0.xsd">
                         <contact:id>{epp.prefix}_{contact_id}</contact:id>
-
                     </contact:info>
                 </info>
                 <clTRID>{epp.clTRID}</clTRID>
@@ -59,7 +58,7 @@ class Contact:
             contact_info['loc_pc'] = postal_loc.find('contact:pc').text
             contact_info['loc_cc'] = postal_loc.find('contact:cc').text
             contact_info['voice'] = soup.find('contact:voice').text
-            # contact_info['fax'] = soup.finde('contact:fax').text
+            contact_info['fax'] = soup.find('contact:fax').text
             contact_info['email'] = soup.find('contact:email').text
             return contact_info
 
