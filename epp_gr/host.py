@@ -54,7 +54,7 @@ class Host:
             # if ip_v6:
             #     host_info['ip_v6'] = ip_v6.text
             host_info['ip_addresses'] = [addr.text.strip() for addr in soup.find_all('host:addr')]
-            host_info['ip_address'] = host_info['ip_addresses'][0] if host_info['ip_addresses'] else None
+            # host_info['ip_address'] = host_info['ip_addresses'][0] if host_info['ip_addresses'] else None
             return host_info
 
     @staticmethod
