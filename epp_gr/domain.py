@@ -54,7 +54,7 @@ class Domain:
                                 if soup.find('domain:contact', {'type': 'tech'}) else None,
                            'billing': soup.find('domain:contact', {'type': 'billing'}).text
                                 if soup.find('domain:contact', {'type': 'billing'}) else None,
-                           'exp_date': soup.find('')
+                           'exp_date': soup.find('domain:exDate').text
                            }
             return domain_info
 

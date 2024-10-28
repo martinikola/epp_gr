@@ -29,8 +29,8 @@ hosts = [
 # print(contact_info)
 
 
-for host in hosts:
-    print(pretty(epp.host_info(host)))
+# for host in hosts:
+#     print(pretty(epp.host_info(host)))
 
 
 # host_info = epp.host_info('ns.arakas.gr')
@@ -40,3 +40,7 @@ for host in hosts:
 #
 #
 # print(pretty(host_info))
+
+print(epp.domain_info('bizeli.gr'))
+
+# epp.print_last_response()
