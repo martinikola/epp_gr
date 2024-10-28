@@ -1,3 +1,5 @@
+from ipaddress import ip_address
+
 from epp_gr import EppClient
 
 class Host:
@@ -45,12 +47,14 @@ class Host:
         if epp.last_result_code == '1000':
             host_info = {'name': soup.find('host:name').text,
                            'roid': soup.find('host:roid').text}
-            ip_v4 = soup.find('host:addr', {'ip':'v4'})
-            if ip_v4:
-                host_info['ip_v4'] = ip_v4.text
-            ip_v6 = soup.find('host:addr', {'ip': 'v6'})
-            if ip_v6:
-                host_info['ip_v6'] = ip_v6.text
+            # ip_v4 = soup.find('host:addr', {'ip':'v4'})
+            # if ip_v4:
+            #     host_info['ip_v4'] = ip_v4.text
+            # ip_v6 = soup.find('host:addr', {'ip': 'v6'})
+            # if ip_v6:
+            #     host_info['ip_v6'] = ip_v6.text
+            host_info['ip_addresses'] = [addr.text.strip() for addr in soup.find_all('host:addr')]
+            host_info['ip_address'] = host_info['ip_addresses'][0] if host_info['ip_addresses'] else None
             return host_info
 
     @staticmethod

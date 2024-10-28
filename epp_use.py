@@ -1,3 +1,5 @@
+from soupsieve.pretty import pretty
+
 from epp_gr.EppClient import EppClient
 
 epp = EppClient()
@@ -14,7 +16,27 @@ contacts = [
  ]
 
 
-for contact in contacts:
-    print(epp.contact_info(contact))
+hosts = [
+    "ns.arakas.gr", "ns.bizeli.gr", "ns.bizelia.gr", "ns.arambas.gr"
+    "psakse.bizelia.gr","ns.bizelia.gr",
+     "ns.forth.gr", "ns1.forth.gr",
+    "ns.papakia.gr","ns1.papakia.gr","ns2.papakia.gr","ns3.papakia.gr","ns6.papakia.gr"
+]
+
+# for contact in contacts:
+#     print(epp.contact_info(contact))
 
 # print(contact_info)
+
+
+for host in hosts:
+    print(pretty(epp.host_info(host)))
+
+
+# host_info = epp.host_info('ns.arakas.gr')
+#
+# # epp.print_last_response()
+#
+#
+#
+# print(pretty(host_info))
