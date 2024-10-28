@@ -58,6 +58,9 @@ class Contact:
             contact_info['loc_sp'] = postal_loc.find('contact:sp').text
             contact_info['loc_pc'] = postal_loc.find('contact:pc').text
             contact_info['loc_cc'] = postal_loc.find('contact:cc').text
+            contact_info['voice'] = soup.find('contact:voice').text
+            # contact_info['fax'] = soup.finde('contact:fax').text
+            contact_info['email'] = soup.find('contact:email').text
             return contact_info
 
     @staticmethod

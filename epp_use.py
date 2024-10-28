@@ -6,16 +6,10 @@ epp.login()
 
 # host="ns1.forth.gr"
 
-hosts = [
-    # "ns.arakas.gr", "ns.bizeli.gr", "ns.bizelia.gr",
-    "psakse.bizelia.gr",
-    "ns.forth.gr", "ns1.forth.gr",
-    "ns.paparas.gr",
-    "ns.bizeli.gr"
-]
+contact_info = epp.contact_info('arakas3')
 
 
-for host in hosts:
-    print(f"***** {host} *****)")
-    print(f"available : {epp.host_check(host)} ")
-    print(f"info : {epp.host_info(host) }" )
+# epp.print_last_response()
+
+
+print(contact_info)
