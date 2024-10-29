@@ -105,7 +105,7 @@ class Domain:
                     <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" 
                         xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
                         <domain:name>{domain_info['name']}</domain:name>\n"""
-        if any(key in domain_info for key in ['host_add', 'admin_add', 'tech_add', 'billing']):
+        if any(key in domain_info for key in ['host_add', 'admin_add', 'tech_add', 'billing_add']):
             xml += f"""                        <domain:add>\n"""
         if 'host_add' in domain_info:
             xml += f"""                        <domain:ns><domain:hostObj>{domain_info['host_add']}</domain:hostObj></domain:ns>\n"""
