@@ -54,6 +54,9 @@ class Domain:
                                 if soup.find('domain:contact', {'type': 'tech'}) else None,
                            'billing': soup.find('domain:contact', {'type': 'billing'}).text
                                 if soup.find('domain:contact', {'type': 'billing'}) else None,
+                           # 'period': soup.find('domain:period').text, period does not exist on info...
+                           'cr_date' : soup.find('domain:crDate').text,
+                           'up_date' : soup.find('domain:upDate').text,
                            'exp_date': soup.find('domain:exDate').text
                            }
             return domain_info
@@ -102,7 +105,7 @@ class Domain:
                     <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" 
                         xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
                         <domain:name>{domain_info['name']}</domain:name>\n"""
-        if any(key in domain_info for key in ['host_add', 'admin_add', 'tech_add', 'billing']):
+        if any(key in domain_info for key in ['host_add', 'admin_add', 'tech_add', 'billing_add']):
             xml += f"""                        <domain:add>\n"""
         if 'host_add' in domain_info:
             xml += f"""                        <domain:ns><domain:hostObj>{domain_info['host_add']}</domain:hostObj></domain:ns>\n"""
