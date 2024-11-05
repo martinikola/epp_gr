@@ -1,6 +1,7 @@
 from epp_gr import EppClient
+from typeguard import typechecked
 
-
+@typechecked
 class Domain:
 
     @staticmethod

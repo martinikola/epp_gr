@@ -2,9 +2,11 @@ from bs4 import BeautifulSoup
 from decouple import config
 import requests
 from soupsieve.pretty import pretty
+from typeguard import typechecked
 
 from epp_gr import host, contact, domain
 
+@typechecked
 class EppClient:
     # def __init__(self):
     # from epp_gr.contact import Contact
