@@ -1,5 +1,4 @@
 from epp_gr import EppClient
-from typeguard import typechecked
 
 @typechecked
 class Contact:

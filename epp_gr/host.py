@@ -1,8 +1,6 @@
 from ipaddress import ip_address
 from epp_gr import EppClient
-from typeguard import typechecked
 
-@typechecked
 class Host:
 
     @staticmethod
