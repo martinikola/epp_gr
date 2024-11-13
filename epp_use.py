@@ -8,15 +8,10 @@ epp.login()
 
 # epp.print_last_response()
 
+domains = [
+    "bizeli.gr","arakas.gr","digitalgov.gr","cureforall.gr", "nikolakis.gr", "saxlamaras.gr", "banana.gr", "spareparts.edu.gr"
 
-print (f"{epp.domain_check('bizeli.gr')=}")
+]
 
-# epp.print_last_response()
-
-
-# info = epp.domain_info('bizeli.gr')
-# #
-# epp.print_last_response()
-# #
-# print(pretty(info))
-
+for domain in domains:
+    print(epp.domain_info(domain))
