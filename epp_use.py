@@ -6,12 +6,17 @@ epp = EppClient()
 
 epp.login()
 
+# epp.print_last_response()
 
 
+print (f"{epp.domain_check('bizeli.gr')=}")
 
-info = epp.domain_info('bizeli.gr')
+# epp.print_last_response()
 
-epp.print_last_response()
 
-print(pretty(info))
+# info = epp.domain_info('bizeli.gr')
+# #
+# epp.print_last_response()
+# #
+# print(pretty(info))
 

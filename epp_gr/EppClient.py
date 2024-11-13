@@ -36,12 +36,13 @@ class EppClient:
                    'Cookie': 'JSESSIONID=' + self.jsessionid + '; Path=/epp; Secure; HttpOnly;'}
         self.last_payload = xml
         response = requests.request(timeout=5, method="GET", url=self.url, headers=headers, data=xml.encode('utf-8'))
-        if response:
+        if response.ok:
             soup = BeautifulSoup(response.text, 'xml')
             self.last_result_code = soup.find('result')['code']
             self.last_result_msg = soup.find('result').find('msg')
             self.last_response = soup.prettify()
             return response, soup
+
 
     def hello(self):
         xml = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -78,7 +79,7 @@ class EppClient:
             self.jsessionid = response.cookies.get('JSESSIONID')
             return True
         else:
-            return False
+            raise Exception(f""" code {self.last_result_code} message {self.last_result_msg}""")
 
     def logout(self):
         """ logout current session"""
