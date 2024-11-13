@@ -1,6 +1,5 @@
 from epp_gr import EppClient
 
-@typechecked
 class Contact:
 
     @staticmethod
