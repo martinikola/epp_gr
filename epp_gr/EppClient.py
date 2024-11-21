@@ -141,7 +141,7 @@ class EppClient:
     def domain_info(self, domain_name: str) -> dict:
         return domain.Domain.info(self, domain_name)
 
-    def domain_create(self, domain_info: dict) -> bool:
+    def domain_create(self, domain_info: dict) -> dict:
         return domain.Domain.create(self, domain_info)
 
     def domain_update(self, domain_info: dict) -> bool:
