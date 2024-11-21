@@ -62,7 +62,7 @@ class Domain:
             return domain_info
 
     @staticmethod
-    def create(epp: EppClient, domain_info: dict) -> bool:
+    def create(epp: EppClient, domain_info: dict) -> dict:
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -92,7 +92,12 @@ class Domain:
                 </epp>
                 """
         response, soup = epp.send_xml(xml)
-        return epp.last_result_code == '1001'
+        if epp.last_result_code == '1001':
+            domain_info = {'name': soup.find('domain:name').text,
+                           'cr_date': soup.find('domain:crDate').text,
+                           'exp_date': soup.find('domain:exDate').text
+                           }
+        return domain_info
 
     @staticmethod
     def update(epp: EppClient, domain_info: dict) -> bool:
