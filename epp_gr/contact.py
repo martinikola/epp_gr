@@ -60,6 +60,7 @@ class Contact:
             contact_info['voice'] = soup.find('contact:voice').text
             contact_info['fax'] = soup.find('contact:fax').text if soup.find('contact:fax') else None
             contact_info['email'] = soup.find('contact:email').text
+            contact_info['cr_date'] = soup.find('contact:crDate').text
             return contact_info
 
     @staticmethod
