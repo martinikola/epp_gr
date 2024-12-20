@@ -3,7 +3,7 @@ from epp_gr.EppClient import EppClient
 
 class TestDomain(TestCase):
 
-    registrant = 'b95_arakas' # xxx_arakas must already exist
+    registrant = 'c27_arakas' # xxx_arakas must already exist
     domain_name = 'bizelia.gr'
     domain_available = False
 

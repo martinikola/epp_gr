@@ -39,7 +39,7 @@ class EppClient:
         if response.ok:
             soup = BeautifulSoup(response.text, 'xml')
             self.last_result_code = soup.find('result')['code']
-            self.last_result_msg = soup.find('result').find('msg')
+            self.last_result_msg = soup.find('result').find('msg').text
             self.last_response = soup.prettify()
             return response, soup
 

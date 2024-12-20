@@ -93,11 +93,21 @@ class Domain:
                 """
         response, soup = epp.send_xml(xml)
         if epp.last_result_code == '1001':
-            domain_info = {'name': soup.find('domain:name').text,
+            created_domain_info = {
+                           'result_code': epp.last_result_code,
+                           'name': soup.find('domain:name').text,
                            'cr_date': soup.find('domain:crDate').text,
                            'exp_date': soup.find('domain:exDate').text
                            }
-        return domain_info
+            return created_domain_info
+        else:
+            failed_domain_info = {
+                'result_code': epp.last_result_code,
+                'name': domain_info['name'],
+                'result_msg': epp.last_result_msg,
+                'comment': soup.find('extdomain:comment').text                
+            }
+            return failed_domain_info
 
     @staticmethod
     def update(epp: EppClient, domain_info: dict) -> bool:

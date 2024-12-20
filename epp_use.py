@@ -6,12 +6,13 @@ epp = EppClient()
 
 epp.login()
 
-# epp.print_last_response()
 
-domains = [
-    "bizeli.gr","arakas.gr","digitalgov.gr","cureforall.gr", "nikolakis.gr", "saxlamaras.gr", "banana.gr", "spareparts.edu.gr"
 
-]
+domain_info = {
+            'registrant': 'c27_Eustat50',
+            'name' : 'bizelaki.gr',
+            'period' : '2',
+        }
 
-for domain in domains:
-    print(epp.domain_info(domain))
+domain_create = epp.domain_create(domain_info)
+print(domain_create)
