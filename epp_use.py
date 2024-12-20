@@ -16,3 +16,8 @@ domain_info = {
 
 domain_create = epp.domain_create(domain_info)
 print(domain_create)
+
+from bs4 import BeautifulSoup, version
+
+
+print(BeautifulSoup.ve)
