@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from ..epp_gr import __version__
+from epp_gr import __version__
 
 setup(
     name='epp_gr',
