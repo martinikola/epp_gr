@@ -74,14 +74,14 @@ class Domain:
                                 xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
                             <domain:name>{domain_info['name']}</domain:name>
                             <domain:period unit="y">{domain_info['period']}</domain:period>
-                            <domain:registrant>{domain_info['registrant']}</domain:registrant>
+                            <domain:registrant>{epp.prefix}_{domain_info['registrant']}</domain:registrant>
                     """
         if domain_info.get('tech'):
-            xml += f"""        <domain:contact type="tech">{domain_info['tech']}</domain:contact>"""
+            xml += f"""        <domain:contact type="tech">{epp.prefix}_{domain_info['tech']}</domain:contact>"""
         if domain_info.get('admin'):
-            xml += f"""        <domain:contact type="admin">{domain_info['admin']}</domain:contact>"""
+            xml += f"""        <domain:contact type="admin">{epp.prefix}_{domain_info['admin']}</domain:contact>"""
         if domain_info.get('billing'):
-            xml += f"""        <domain:contact type="billing">{domain_info['billing']}</domain:contact>"""
+            xml += f"""        <domain:contact type="billing">{epp.prefix}_{domain_info['billing']}</domain:contact>"""
         xml += f"""<domain:authInfo>
                                 <domain:pw/>
                             </domain:authInfo>
@@ -125,11 +125,11 @@ class Domain:
         if 'host_add' in domain_info:
             xml += f"""                        <domain:ns><domain:hostObj>{domain_info['host_add']}</domain:hostObj></domain:ns>\n"""
         if 'admin_add' in domain_info:
-            xml += f"""                        <domain:contact type="admin">{domain_info['admin_add']}</domain:contact>\n"""
+            xml += f"""                        <domain:contact type="admin">{epp.prefix}_{domain_info['admin_add']}</domain:contact>\n"""
         if 'tech_add' in domain_info:
-            xml += f"""                        <domain:contact type="tech" >{domain_info['tech_add']}</domain:contact>\n"""
+            xml += f"""                        <domain:contact type="tech" >{epp.prefix}_{domain_info['tech_add']}</domain:contact>\n"""
         if 'billing_add' in domain_info:
-            xml += f"""                        <domain:contact type="billing">{domain_info['billing_add']}</domain:contact>\n"""
+            xml += f"""                        <domain:contact type="billing">{epp.prefix}_{domain_info['billing_add']}</domain:contact>\n"""
         if any(key in domain_info for key in ['host_add', 'admin_add', 'tech_add', 'billing_add']):
             xml += f"""                        </domain:add>\n"""
         if any(key in domain_info for key in ['host_rem', 'admin_rem', 'tech_rem', 'billing_rem']):
@@ -137,11 +137,11 @@ class Domain:
         if 'host_rem' in domain_info:
             xml += f"""                        <domain:ns><domain:hostObj>{domain_info['host_rem']}</domain:hostObj></domain:ns>\n"""
         if 'admin_rem' in domain_info:
-            xml += f"""                        <domain:contact type="admin">{domain_info['admin_rem']}</domain:contact>\n"""
+            xml += f"""                        <domain:contact type="admin">{epp.prefix}_{domain_info['admin_rem']}</domain:contact>\n"""
         if 'tech_rem' in domain_info:
-            xml += f"""                        <domain:contact type="tech">{domain_info['tech_rem']}</domain:contact>\n"""
+            xml += f"""                        <domain:contact type="tech">{epp.prefix}_{domain_info['tech_rem']}</domain:contact>\n"""
         if 'billing_rem' in domain_info:
-            xml += f"""                        <domain:contact type="billing">{domain_info['billing_rem']}</domain:contact>\n"""
+            xml += f"""                        <domain:contact type="billing">{epp.prefix}_{domain_info['billing_rem']}</domain:contact>\n"""
         if any(key in domain_info for key in ['host_rem', 'admin_rem', 'tech_rem', 'billing_rem']):
             xml += f"""                        </domain:rem>\n"""
 
