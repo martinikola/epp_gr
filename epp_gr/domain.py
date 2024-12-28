@@ -159,23 +159,31 @@ class Domain:
 
 
     def renew(epp: EppClient, domain_info: dict) -> dict:
-        xml = f""" <?xml version = "1.0" encoding = "UTF-8" standalone = "no"?>
+        xml = f"""<?xml version = "1.0" encoding = "UTF-8" standalone = "no"?>
                <epp xmlns = "urn:ietf:params:xml:ns:epp-1.0"
                     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation = "urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd" >
                     <command>
                         <renew>
-                        <domain:renew xmlns: domain = "urn:ietf:params:xml:ns:domain-1.0"
-                                xsi: schemaLocation = "urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd" >
+                        <domain:renew xmlns:domain = "urn:ietf:params:xml:ns:domain-1.0"
+                                xsi:schemaLocation = "urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd" >
                             <domain:name>{domain_info['name']}</domain:name>
                             <domain:curExpDate>{domain_info['current_exp_date']}</domain:curExpDate >
                             <domain:period unit="y">{domain_info['period']}</domain:period >
-                        </domain:renew >
+                        </domain:renew>
                         </renew>
                     <clTRID>{epp.clTRID}</clTRID >
                     </command>
                </epp>"""
         response, soup = epp.send_xml(xml)
         if epp.last_result_code == '1000':
-            return  {'name': soup.find('domain:name').text,
+            return  {'result_code': epp.last_result_code,
+                    'result_msg': epp.last_result_msg,
+                
+                    'name': soup.find('domain:name').text,
                     'exp_date' : soup.find('domain:exDate').text}
+        else:
+            return {'result_code': epp.last_result_code,
+                    'result_msg': epp.last_result_msg,
+                    
+                    }                    

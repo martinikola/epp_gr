@@ -2,8 +2,6 @@ from bs4 import BeautifulSoup
 from decouple import config
 import requests
 from soupsieve.pretty import pretty
-
-
 from epp_gr import host, contact, domain
 
 class EppClient:

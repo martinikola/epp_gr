@@ -3,8 +3,8 @@ from epp_gr.EppClient import EppClient
 
 class TestDomain(TestCase):
 
-    registrant = 'c27_arakas' # xxx_arakas must already exist
-    domain_name = 'bizelia.gr'
+    registrant = 'arakas' # xxx_arakas must already exist
+    domain_name = 'bizelaki.gr'
     domain_available = False
 
     def setUp(self):
@@ -66,45 +66,20 @@ class TestDomain(TestCase):
 
 
 
-
-
-
-
     def test_renew(self):
-        print(self.epp.domain_info(self.domain_name))
-
-
-
-        # domain_info = {
-        #     'name' : self.domain_name,
-        #     'current_exp_date' : '2012-03-19',
-        #     'period' : '2'
-        # }
-        # domain_renew = self.epp.domain_renew(domain_info)
-        # self.epp.print_last_response()
         # self.epp.print_last_payload()
+        # print(self.epp.domain_info(self.domain_name))
 
-    # def test_contact_update(self):
-    #     domain_info = {
-    #         'contact_id': self.contact_id,
-    #         # loc_name, loc_org, int_name , int_org not updatable
-    #         'loc_street1': 'ΑΧΑΡΝΩΝ',
-    #         'loc_street2': 'ΠΑΠΑΦΛΕΣΣΑ',
-    #         'loc_street3': 'ΕΔΩ ΣΟΥ ξανα - ΑΛΛΑΖΩ ΤΑ ΦΩΡΤΑ',
-    #         'loc_city': 'ΑΘΗΝΑ',
-    #         'loc_sp': 'ΠΕΙΡΑΙΑΣ',
-    #         'loc_pc': '12345',
-    #         'voice': '+30.2102125306',
-    #         'fax': '+30.2102125306',
-    #         'email': 'john.doe@example.com',
-    #         'loc_cc': 'cr'
-    #     }
-    #     # recheck since create may have succeeded
-    #     contact_available_now = self.epp.contact_check(self.contact_id)
-    #     contact_update = self.epp.contact_update(contact_info)
-    #     # if contact_available_now (meaning DOES NOT exist) i can update it
-    #     if contact_available_now:
-    #         assert contact_update is False, f"""expected contact {self.contact_id} to be updated"""
-    #     else:
-    #         assert contact_update is True, f"""expected contact {self.contact_id} to fail since its not available"""
+        domain_info = {
+             'name' : self.domain_name,
+             'current_exp_date' : '2026-12-19',
+            'period' : '2'
+        }
+        domain_renew = self.epp.domain_renew(domain_info)
+        
+        
+        # print(domain_renew)
+        print(self.epp.last_payload)
+        print(self.epp.last_response)
 
+    
