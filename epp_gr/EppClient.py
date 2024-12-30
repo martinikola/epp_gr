@@ -5,6 +5,7 @@ from soupsieve.pretty import pretty
 from epp_gr import host, contact, domain
 
 class EppClient:
+    """ an epp client """
     # def __init__(self):
     # from epp_gr.contact import Contact
     # self.contact = Contact
@@ -22,25 +23,27 @@ class EppClient:
     last_result_msg = ""
     last_payload = ""
 
-
     def print_last_response(self):
         print(self.last_response)
 
     def print_last_payload(self):
         print(self.last_payload)
 
-    def send_xml(self, xml):
+    from typing import Tuple
+
+    def send_xml(self, xml: str) -> Tuple[requests.Response, BeautifulSoup]:
+        """ Sends XML to the EPP server and returns the response and the parsed BeautifulSoup object. """
         headers = {'Content-Type': 'application/xml', 'Connection': 'keep-alive',
                    'Cookie': 'JSESSIONID=' + self.jsessionid + '; Path=/epp; Secure; HttpOnly;'}
         self.last_payload = xml
-        response = requests.request(timeout=5, method="GET", url=self.url, headers=headers, data=xml.encode('utf-8'))
+        response = requests.request(
+            timeout=5, method="GET", url=self.url, headers=headers, data=xml.encode('utf-8'))
         if response.ok:
             soup = BeautifulSoup(response.text, 'xml')
             self.last_result_code = soup.find('result')['code']
             self.last_result_msg = soup.find('result').find('msg').text
             self.last_response = soup.prettify()
             return response, soup
-
 
     def hello(self):
         xml = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -77,12 +80,13 @@ class EppClient:
             self.jsessionid = response.cookies.get('JSESSIONID')
             return True
         else:
-            raise Exception(f""" code {self.last_result_code} message {self.last_result_msg}""")
+            raise Exception(f""" code {self.last_result_code} message {
+            self.last_result_msg}""")
 
     def logout(self):
         """ logout current session"""
         xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
                     <command>
                         <logout/>
@@ -110,14 +114,13 @@ class EppClient:
     def contact_update(self, contact_info: dict) -> bool:
         return contact.Contact.update(self, contact_info)
 
-
     def host_check(self, host_name: str) -> bool:
         """ checks the availability  of a host returns True if available else False """
         return host.Host.check(self, host_name)
 
     def host_info(self, host_name: str) -> dict:
         """ retrieves the host information """
-        return host.Host.info(self,host_name)
+        return host.Host.info(self, host_name)
 
     def host_create(self, host_info: dict) -> bool:
         """ creates a new host"""
@@ -131,8 +134,7 @@ class EppClient:
         """ deletes a host """
         return host.Host.delete(self, host_name)
 
-
-    def domain_check(self,domain_name: str) -> bool:
+    def domain_check(self, domain_name: str) -> bool:
         """ checks the availability  of a domain returns True if available else False """
         return domain.Domain.check(self, domain_name)
 
@@ -148,7 +150,5 @@ class EppClient:
     def domain_delete(self, domain_name: str) -> bool:
         return domain.Domain.delete(self, domain_name)
 
-    def domain_renew(self,domain_info: dict) -> dict:
-        return domain.Domain.renew(self,domain_info)
-
-
+    def domain_renew(self, domain_info: dict) -> dict:
+        return domain.Domain.renew(self, domain_info)

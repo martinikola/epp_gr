@@ -18,8 +18,8 @@ class Domain:
                 </epp>"""
         response, soup = epp.send_xml(xml)
         if epp.last_result_code == '1000':
-            domain_name = soup.find('domain:name')
-            return domain_name and domain_name.get('avail') == '1'  # '0' means exists, '1' means available
+            avail = soup.find('domain:name').get('avail')
+            return avail == '1'  # '1' means available, '0' means not available
         return False
 
     @staticmethod
