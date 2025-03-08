@@ -46,14 +46,14 @@ class TestDomain(TestCase):
 
     def test_domain_update(self):
         domain_info = {
-            'name' : 'bizelia.gr',
+            'name' : 'kanapes.gr',
 
-            # 'host_add' : 'ns.bizelia.gr',
+            'host_add' : 'ns1.kanaspes.gr',
             # 'admin_add' : 'b95_arakas',
             # 'tech_add' : 'b95_arakas',
             # 'billing_add' : 'b95_arakas',
 
-            'host_rem' : 'ns.bizelia.gr',
+            # 'host_rem' : 'ns1.kanapes.gr',
             # 'admin_rem' : 'b95_arakas',
             # 'tech_rem' : 'b95_arakas',
             # 'billing_rem' :'b95_arakas',

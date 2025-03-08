@@ -6,18 +6,8 @@ epp = EppClient()
 
 epp.login()
 
+print(epp.domain_info("bizelaki.gr"))
+
+# epp.print_last_response()
 
 
-domain_info = {
-            'registrant': 'c27_Eustat50',
-            'name' : 'bizelaki.gr',
-            'period' : '2',
-        }
-
-domain_create = epp.domain_create(domain_info)
-print(domain_create)
-
-from bs4 import BeautifulSoup, version
-
-
-print(BeautifulSoup.ve)

@@ -1,1 +1,1 @@
-__version__ = '0.3.17'  # Your package version here
+__version__ = '0.3.18'  # Your package version here
