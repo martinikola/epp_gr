@@ -8,6 +8,6 @@ epp.login()
 
 print(epp.domain_info("bizelaki.gr"))
 
-# epp.print_last_response()
+
 
 

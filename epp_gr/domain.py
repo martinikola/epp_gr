@@ -53,7 +53,7 @@ class Domain:
                                 if soup.find('domain:contact', {'type': 'tech'}) else None,
                            'billing': soup.find('domain:contact', {'type': 'billing'}).text
                                 if soup.find('domain:contact', {'type': 'billing'}) else None,
-                           'hosts': [host.text for host in soup.find_all('domain:host')],
+                           'hosts': [host.text for host in soup.find_all('domain:hostObj')],
                            # 'period': soup.find('domain:period').text, period does not exist on info...
                            'cr_date' : soup.find('domain:crDate').text,
                            'up_date' : soup.find('domain:upDate').text
