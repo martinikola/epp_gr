@@ -6,8 +6,8 @@ class TestHost(TestCase):
     # host = "ns1.forth.gr"
     # host_available = False
 
-    host = "ns.bizelia.gr"
-    host_available = True
+    host = "ns.bizelaki.gr"
+    host_available = False
 
     def setUp(self):
         self.epp = EppClient()
@@ -64,6 +64,8 @@ class TestHost(TestCase):
     def test_host_delete(self):
         host_available_now = self.epp.host_check(self.host)
         host_delete = self.epp.host_delete(self.host)
+        self.epp.print_last_payload()
+        self.epp.print_last_response()
         if host_available_now:
             assert host_delete is None, f"""expected host {self.host_available} to fail since its not available"""
         else:

@@ -6,7 +6,9 @@ epp = EppClient()
 
 epp.login()
 
-print(epp.domain_info("bizelaki.gr"))
+host
+
+epp.host_create('ns33.bizelaki.gr')
 
 
 

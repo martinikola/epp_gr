@@ -130,20 +130,20 @@ class Host:
 
     @staticmethod
     def delete(epp: EppClient, host_name:str) -> bool:
-        xml = f""" < ?xml version = "1.0" encoding = "UTF-8" standalone = "no"? >
-            <epp xmlns = "urn:ietf:params:xml:ns:epp-1.0"
-                xmlns: xsi = "http://www.w3.org/2001/XMLSchema-instance"
-                xsi: schemaLocation = "urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd" >
-                <command >
-                    <delete >
-                        <host: delete xmlns: host = "urn:ietf:params:xml:ns:host-1.0"
-                            xsi: schemaLocation = "urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd" >
-                        <host: name > {host_name} < /host: name >
-                        </host: delete >
-                    </delete >
-                    <clTRID > {epp.clTRID} < /clTRID >
-                </command >
-            </epp >"""
+        xml = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+            <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+                <command>
+                    <delete>
+                        <host:delete xmlns:host="urn:ietf:params:xml:ns:host-1.0"
+                            xsi:schemaLocation="urn:ietf:params:xml:ns:host-1.0 host-1.0.xsd">
+                        <host:name>{host_name}</host:name>
+                        </host:delete>
+                    </delete>
+                    <clTRID>{epp.clTRID}</clTRID>
+                </command>
+            </epp>"""
         response, soup = epp.send_xml(xml)
         if epp.last_result_code == '1000':
                 return True
